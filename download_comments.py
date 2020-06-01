@@ -27,12 +27,13 @@ def proccess_links(links, recursive: bool = False):
     for link in links:
         date = link['date']
         link = link['link']
+        id = link
 
         response = requests.get(link)
 
         html = Selector(response.text)
         for page in get_news_page(html):
-            page['date'] = date
+            page['published'] = date
             yield page
 
         if recursive:
@@ -72,9 +73,9 @@ def process_new(news):
         data = get_news_info(html)
         new.update(data)
 
-        comments = get_comments_links(html, True)
+        # comments = get_comments_links(html, True)
 
-        new['comments'] = comments
+        # new['comments'] = comments
 
         yield new
 
