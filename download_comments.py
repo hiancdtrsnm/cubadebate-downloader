@@ -6,8 +6,6 @@ import logging
 import json
 import os
 
-# logging.basicConfig(level=logging.DEBUG)
-
 BASE_URL = 'http://www.cubadebate.cu'
 
 
@@ -25,7 +23,7 @@ def generate_urls(from_date: date, to_date: date):
 def proccess_links(links, recursive: bool = False):
 
     for link in links:
-        date = link['date']
+        date = str(link['date'])
         link = link['link']
         id = link
 
@@ -73,19 +71,9 @@ def process_new(news):
         data = get_news_info(html)
         new.update(data)
 
-        # comments = get_comments_links(html, True)
-
-        # new['comments'] = comments
-
         yield new
 
 
 def get_news(from_date: date, to_date: date, folder='artícles') -> dict:
-
-
     return process_new(proccess_links(generate_urls(from_date, to_date)))
 
-
-if __name__ == "__main__":
-    print(list(get_news(date(2020, 1, 1), date(2020, 1, 2))))
-    pass

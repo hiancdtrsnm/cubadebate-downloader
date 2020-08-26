@@ -20,7 +20,7 @@ def get_news_page(html: Selector):
 
 
 def get_news_info(html: Selector):
-    summary = ''.join(html.css('.note_content > p::text').getall()).strip()
+    summary = ''.join(html.css('div.entry > div.note_content > p > *::text').getall()).strip()
     updated = ''
     author = '' 
     
