@@ -15,23 +15,25 @@ def get_news_page(html: Selector):
         yield {
             'tags': [tag for tag in div.attrib['class'].split(' ') if tag and tag != 'generic' ],
             'title': a.css('::text').get(),
-            'link': a.css('::attr(href)').get()
+            'link': a.css('::attr(href)').get()   
         }
 
 
 def get_news_info(html: Selector):
-
-    text =  ''.join(html.css('.note_content ::text').getall()).strip()
-
-
+    summary = ''.join(html.css('div.entry > div.note_content > p > *::text').getall()).strip()
+    updated = ''
+    author = '' 
+    
     return {
-        'text': text,
-        'images': None,
+        'summary' : summary,
+        'abstract': ' '.join(summary.split(' ')[:min(120,len(summary.split(' ')))]),
+        'updated' : '',
+        'author' : author
     }
 
 
 def get_comments(html: Selector):
-
+    
     comments = html.css('li.comment')
 
     ans = []
